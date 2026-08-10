@@ -12,7 +12,17 @@ importantes.
 
 ## Estrutura do projeto
 kmcare/
-├── mobile/ # App React Native (Expo)
+mobile/
+├── src/
+│   ├── screens/
+│   │   ├── Login/
+│   │   ├── VehicleList/
+│   │   ├── VehicleForm/
+│   │   ├── VehicleDetail/
+│   │   └── MaintenanceForm/
+│   ├── navigation/
+│   ├── services/
+│   └── types/
 ├── backend/ # API NestJS
 └── docker-compose.yml
 

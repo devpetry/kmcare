@@ -33,7 +33,7 @@ export default function VehicleListScreen() {
         />
       )}
 
-      <TouchableOpacity style={styles.fab} onPress={() => console.log('TODO: tela de cadastro de veículo')}>
+      <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('VehicleForm')}>
         <Text style={styles.fabText}>+</Text>
       </TouchableOpacity>
     </View>

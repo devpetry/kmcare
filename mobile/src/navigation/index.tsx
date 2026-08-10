@@ -6,6 +6,7 @@ import LoginScreen from '../screens/Login';
 import VehicleListScreen from '../screens/VehicleList';
 import VehicleDetailScreen from '../screens/VehicleDetail';
 import MaintenanceFormScreen from '../screens/MaintenanceForm';
+import VehicleFormScreen from '../screens/VehicleForm';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,6 +18,7 @@ export default function Navigation() {
         <Stack.Screen name="VehicleList" component={VehicleListScreen} options={{ title: 'Meus Veículos' }} />
         <Stack.Screen name="VehicleDetail" component={VehicleDetailScreen} options={{ title: 'Detalhes' }} />
         <Stack.Screen name="MaintenanceForm" component={MaintenanceFormScreen} options={{ title: 'Registrar Manutenção' }} />
+        <Stack.Screen name="VehicleForm" component={VehicleFormScreen} options={{ title: 'Novo Veículo' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
