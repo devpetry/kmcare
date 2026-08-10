@@ -49,3 +49,12 @@ export const mockMaintenanceRecords: MaintenanceRecord[] = [
     cost: 250,
   },
 ];
+
+export const mockMaintenanceTypes = [
+  { id: "t1", name: "Troca de óleo" },
+  { id: "t2", name: "Revisão" },
+  { id: "t3", name: "Troca de pneus" },
+  { id: "t4", name: "Troca de filtro de ar" },
+  { id: "t5", name: "Alinhamento e balanceamento" },
+  { id: "t6", name: "Outro" },
+];
