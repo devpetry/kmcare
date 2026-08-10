@@ -1,0 +1,19 @@
+# Node (fallback, caso alguma dependência escape do gitignore do mobile)
+node_modules/
+
+# Backend (NestJS)
+backend/dist/
+backend/node_modules/
+
+# Variáveis de ambiente (nunca commitar segredos)
+.env
+.env.local
+*.env
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
