@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  vehicles     Vehicle[]
+
+  @@map("users")
+}
+
+model Vehicle {
+  id        String              @id @default(uuid())
+  userId    String              @map("user_id")
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nickname  String?
+  plate     String?
+  brand     String?
+  model     String?
+  year      Int?
+  currentKm Int                 @default(0) @map("current_km")
+  createdAt DateTime            @default(now()) @map("created_at")
+  deletedAt DateTime?           @map("deleted_at")
+  rules     MaintenanceRule[]
+  records   MaintenanceRecord[]
+
+  @@map("vehicles")
+}
+
+model MaintenanceType {
+  id                  String              @id @default(uuid())
+  name                String
+  defaultIntervalKm   Int?                @map("default_interval_km")
+  defaultIntervalDays Int?                @map("default_interval_days")
+  rules               MaintenanceRule[]
+  records             MaintenanceRecord[]
+
+  @@map("maintenance_types")
+}
+
+model MaintenanceRule {
+  id                String          @id @default(uuid())
+  vehicleId         String          @map("vehicle_id")
+  vehicle           Vehicle         @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  maintenanceTypeId String          @map("maintenance_type_id")
+  maintenanceType   MaintenanceType @relation(fields: [maintenanceTypeId], references: [id])
+  intervalKm        Int?            @map("interval_km")
+  intervalDays      Int?            @map("interval_days")
+
+  @@unique([vehicleId, maintenanceTypeId])
+  @@map("maintenance_rules")
+}
+
+model MaintenanceRecord {
+  id                String          @id @default(uuid())
+  vehicleId         String          @map("vehicle_id")
+  vehicle           Vehicle         @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  maintenanceTypeId String          @map("maintenance_type_id")
+  maintenanceType   MaintenanceType @relation(fields: [maintenanceTypeId], references: [id])
+  performedAt       DateTime        @map("performed_at") @db.Date
+  kmAtService       Int             @map("km_at_service")
+  cost              Decimal?        @db.Decimal(10, 2)
+  notes             String?
+  createdAt         DateTime        @default(now()) @map("created_at")
+  deletedAt         DateTime?       @map("deleted_at")
+
+  @@index([vehicleId])
+  @@map("maintenance_records")
+}
