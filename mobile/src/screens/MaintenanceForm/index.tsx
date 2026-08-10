@@ -17,6 +17,7 @@ import { maintenanceSchema, MaintenanceFormData } from "./schema";
 import { RootStackParamList } from "../../navigation/types";
 import { mockMaintenanceTypes } from "../../services/mockData";
 import { formatDateInput } from "./utils";
+import { colors, spacing, radius } from "../../theme";
 
 type MaintenanceFormNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -208,43 +209,51 @@ function Field({
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
-  scroll: { padding: 20 },
-  field: { marginBottom: 16, marginTop: 16 },
-  label: { fontSize: 14, fontWeight: "600", marginBottom: 6, color: "#333" },
+  container: { flex: 1, backgroundColor: colors.white },
+  scroll: { padding: spacing.xl },
+  field: { marginBottom: spacing.lg, marginTop: spacing.lg },
+  label: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 6,
+    color: colors.textPrimary,
+  },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
+    borderColor: colors.border,
+    borderRadius: radius.md,
     paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingVertical: spacing.md,
     fontSize: 16,
   },
-  inputError: { borderColor: "#e53935" },
-  errorText: { color: "#e53935", fontSize: 12, marginTop: 4 },
+  inputError: { borderColor: colors.error },
+  errorText: { color: colors.error, fontSize: 12, marginTop: spacing.xs },
   chipContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
-    marginTop: 8,
+    gap: spacing.sm,
+    marginTop: spacing.sm,
   },
   chip: {
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 20,
-    paddingVertical: 8,
+    borderColor: colors.border,
+    borderRadius: radius.pill,
+    paddingVertical: spacing.sm,
     paddingHorizontal: 14,
   },
-  chipSelected: { backgroundColor: "#1a73e8", borderColor: "#1a73e8" },
-  chipText: { fontSize: 13, color: "#333" },
-  chipTextSelected: { color: "#fff", fontWeight: "600" },
+  chipSelected: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  chipText: { fontSize: 13, color: colors.textPrimary },
+  chipTextSelected: { color: colors.white, fontWeight: "600" },
   button: {
-    backgroundColor: "#1a73e8",
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    borderRadius: radius.md,
     paddingVertical: 14,
     alignItems: "center",
-    marginTop: 24,
+    marginTop: spacing.xxl,
   },
   buttonDisabled: { opacity: 0.6 },
-  buttonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
+  buttonText: { color: colors.white, fontSize: 16, fontWeight: "600" },
 });

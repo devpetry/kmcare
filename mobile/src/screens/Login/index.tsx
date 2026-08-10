@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   View,
   Text,
@@ -7,15 +7,19 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { loginSchema, LoginFormData } from './schema';
-import { RootStackParamList } from '../../navigation/types';
+} from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { loginSchema, LoginFormData } from "./schema";
+import { RootStackParamList } from "../../navigation/types";
+import { colors, spacing, radius, typography } from "../../theme";
 
-type LoginNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
+type LoginNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Login"
+>;
 
 export default function LoginScreen() {
   const navigation = useNavigation<LoginNavigationProp>();
@@ -27,19 +31,19 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: "", password: "" },
   });
 
   const onSubmit = async (data: LoginFormData) => {
     setIsSubmitting(true);
     try {
       // TODO: substituir por chamada real à API quando o backend estiver pronto
-      console.log('Login attempt:', data);
+      console.log("Login attempt:", data);
       await new Promise((resolve) => setTimeout(resolve, 800)); // simula requisição
 
-      navigation.replace('VehicleList');
+      navigation.replace("VehicleList");
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
+      console.error("Erro ao fazer login:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -48,7 +52,7 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <Text style={styles.title}>KM Care</Text>
       <Text style={styles.subtitle}>Entre para acompanhar seus veículos</Text>
@@ -70,7 +74,9 @@ export default function LoginScreen() {
             />
           )}
         />
-        {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+        {errors.email && (
+          <Text style={styles.errorText}>{errors.email.message}</Text>
+        )}
       </View>
 
       <View style={styles.field}>
@@ -89,7 +95,9 @@ export default function LoginScreen() {
             />
           )}
         />
-        {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
+        {errors.password && (
+          <Text style={styles.errorText}>{errors.password.message}</Text>
+        )}
       </View>
 
       <TouchableOpacity
@@ -97,35 +105,45 @@ export default function LoginScreen() {
         onPress={handleSubmit(onSubmit)}
         disabled={isSubmitting}
       >
-        <Text style={styles.buttonText}>{isSubmitting ? 'Entrando...' : 'Entrar'}</Text>
+        <Text style={styles.buttonText}>
+          {isSubmitting ? "Entrando..." : "Entrar"}
+        </Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', paddingHorizontal: 24 },
-  title: { fontSize: 32, fontWeight: 'bold', textAlign: 'center', marginBottom: 4 },
-  subtitle: { fontSize: 14, color: '#666', textAlign: 'center', marginBottom: 32 },
-  field: { marginBottom: 16 },
-  label: { fontSize: 14, fontWeight: '600', marginBottom: 6, color: '#333' },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: spacing.xl,
+  },
+  title: { ...typography.title, textAlign: "center", marginBottom: spacing.xs },
+  subtitle: {
+    ...typography.subtitle,
+    textAlign: "center",
+    marginBottom: spacing.xxxl,
+  },
+  field: { marginBottom: spacing.lg },
+  label: { ...typography.label, marginBottom: 6 },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
+    borderColor: colors.border,
+    borderRadius: radius.md,
     paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 16,
+    paddingVertical: spacing.md,
+    ...typography.body,
   },
-  inputError: { borderColor: '#e53935' },
-  errorText: { color: '#e53935', fontSize: 12, marginTop: 4 },
+  inputError: { borderColor: colors.error },
+  errorText: { color: colors.error, fontSize: 12, marginTop: spacing.xs },
   button: {
-    backgroundColor: '#1a73e8',
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    borderRadius: radius.md,
     paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 8,
+    alignItems: "center",
+    marginTop: spacing.sm,
   },
   buttonDisabled: { opacity: 0.6 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  buttonText: { color: colors.white, fontSize: 16, fontWeight: "600" },
 });

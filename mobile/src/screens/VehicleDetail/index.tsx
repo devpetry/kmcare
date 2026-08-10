@@ -1,11 +1,21 @@
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/types';
-import { mockVehicles, mockMaintenanceRecords } from '../../services/mockData';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/types";
+import { mockVehicles, mockMaintenanceRecords } from "../../services/mockData";
+import { colors, spacing, radius } from "../../theme";
 
-type VehicleDetailNavigationProp = NativeStackNavigationProp<RootStackParamList, 'VehicleDetail'>;
-type VehicleDetailRouteProp = RouteProp<RootStackParamList, 'VehicleDetail'>;
+type VehicleDetailNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "VehicleDetail"
+>;
+type VehicleDetailRouteProp = RouteProp<RootStackParamList, "VehicleDetail">;
 
 export default function VehicleDetailScreen() {
   const navigation = useNavigation<VehicleDetailNavigationProp>();
@@ -34,12 +44,14 @@ export default function VehicleDetailScreen() {
         <Text style={styles.details}>
           {vehicle.brand} {vehicle.model} • {vehicle.year}
         </Text>
-        <Text style={styles.km}>{vehicle.currentKm.toLocaleString('pt-BR')} km atuais</Text>
+        <Text style={styles.km}>
+          {vehicle.currentKm.toLocaleString("pt-BR")} km atuais
+        </Text>
 
         {vehicle.nextMaintenance && (
           <View style={styles.alertBox}>
             <Text style={styles.alertText}>
-              Próxima: {vehicle.nextMaintenance.typeName} em{' '}
+              Próxima: {vehicle.nextMaintenance.typeName} em{" "}
               {vehicle.nextMaintenance.dueInKm
                 ? `${vehicle.nextMaintenance.dueInKm} km`
                 : `${vehicle.nextMaintenance.dueInDays} dias`}
@@ -52,7 +64,9 @@ export default function VehicleDetailScreen() {
 
       {records.length === 0 ? (
         <View style={styles.centered}>
-          <Text style={styles.emptyText}>Nenhuma manutenção registrada ainda</Text>
+          <Text style={styles.emptyText}>
+            Nenhuma manutenção registrada ainda
+          </Text>
         </View>
       ) : (
         <FlatList
@@ -64,14 +78,16 @@ export default function VehicleDetailScreen() {
               <View style={styles.recordHeader}>
                 <Text style={styles.recordType}>{item.typeName}</Text>
                 <Text style={styles.recordDate}>
-                  {new Date(item.performedAt).toLocaleDateString('pt-BR')}
+                  {new Date(item.performedAt).toLocaleDateString("pt-BR")}
                 </Text>
               </View>
               <Text style={styles.recordDetails}>
-                {item.kmAtService.toLocaleString('pt-BR')} km
-                {item.cost ? ` • R$ ${item.cost.toFixed(2)}` : ''}
+                {item.kmAtService.toLocaleString("pt-BR")} km
+                {item.cost ? ` • R$ ${item.cost.toFixed(2)}` : ""}
               </Text>
-              {item.notes && <Text style={styles.recordNotes}>{item.notes}</Text>}
+              {item.notes && (
+                <Text style={styles.recordNotes}>{item.notes}</Text>
+              )}
             </View>
           )}
         />
@@ -79,7 +95,7 @@ export default function VehicleDetailScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('MaintenanceForm', { vehicleId })}
+        onPress={() => navigation.navigate("MaintenanceForm", { vehicleId })}
       >
         <Text style={styles.buttonText}>Registrar manutenção</Text>
       </TouchableOpacity>
@@ -88,46 +104,72 @@ export default function VehicleDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f7f7f7' },
-  header: { backgroundColor: '#fff', padding: 20, borderBottomWidth: 1, borderBottomColor: '#eee' },
-  nickname: { fontSize: 22, fontWeight: 'bold' },
-  details: { fontSize: 14, color: '#666', marginTop: 2 },
-  km: { fontSize: 14, color: '#666', marginTop: 6 },
+  container: { flex: 1, backgroundColor: colors.background },
+  header: {
+    backgroundColor: colors.white,
+    padding: spacing.xl,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+  },
+  nickname: { fontSize: 22, fontWeight: "bold" },
+  details: { fontSize: 14, color: colors.textSecondary, marginTop: 2 },
+  km: { fontSize: 14, color: colors.textSecondary, marginTop: spacing.sm },
   alertBox: {
-    backgroundColor: '#fff3e0',
-    borderRadius: 6,
+    backgroundColor: colors.warningBg,
+    borderRadius: radius.sm,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    marginTop: 10,
-    alignSelf: 'flex-start',
+    marginTop: spacing.md,
+    alignSelf: "flex-start",
   },
-  alertText: { fontSize: 12, color: '#e65100', fontWeight: '600' },
-  sectionTitle: { fontSize: 15, fontWeight: '600', paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8, color: '#333' },
-  list: { paddingHorizontal: 20, paddingBottom: 90 },
+  alertText: { fontSize: 12, color: colors.warningText, fontWeight: "600" },
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: "600",
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.sm,
+    color: colors.textPrimary,
+  },
+  list: { paddingHorizontal: spacing.xl, paddingBottom: 90 },
   recordCard: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    backgroundColor: colors.white,
+    borderRadius: radius.lg,
     padding: 14,
-    marginBottom: 10,
+    marginBottom: spacing.md,
     borderWidth: 1,
-    borderColor: '#eee',
+    borderColor: colors.borderLight,
   },
-  recordHeader: { flexDirection: 'row', justifyContent: 'space-between' },
-  recordType: { fontSize: 15, fontWeight: '600' },
-  recordDate: { fontSize: 13, color: '#999' },
-  recordDetails: { fontSize: 13, color: '#666', marginTop: 4 },
-  recordNotes: { fontSize: 12, color: '#999', marginTop: 4, fontStyle: 'italic' },
-  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 32 },
-  emptyText: { fontSize: 14, color: '#999', textAlign: 'center' },
+  recordHeader: { flexDirection: "row", justifyContent: "space-between" },
+  recordType: { fontSize: 15, fontWeight: "600" },
+  recordDate: { fontSize: 13, color: colors.textMuted },
+  recordDetails: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    marginTop: spacing.xs,
+  },
+  recordNotes: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginTop: spacing.xs,
+    fontStyle: "italic",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: spacing.xxxl,
+  },
+  emptyText: { fontSize: 14, color: colors.textMuted, textAlign: "center" },
   button: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,
-    backgroundColor: '#1a73e8',
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    borderRadius: radius.md,
     paddingVertical: 14,
-    alignItems: 'center',
+    alignItems: "center",
   },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  buttonText: { color: colors.white, fontSize: 16, fontWeight: "600" },
 });

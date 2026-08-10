@@ -1,5 +1,6 @@
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
-import { Vehicle } from '../../types/vehicle';
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { Vehicle } from "../../types/vehicle";
+import { colors, spacing, radius } from "../../theme";
 
 type Props = {
   vehicle: Vehicle;
@@ -13,7 +14,9 @@ export default function VehicleCard({ vehicle, onPress }: Props) {
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <View style={styles.header}>
         <Text style={styles.nickname}>{vehicle.nickname}</Text>
-        <Text style={styles.km}>{vehicle.currentKm.toLocaleString('pt-BR')} km</Text>
+        <Text style={styles.km}>
+          {vehicle.currentKm.toLocaleString("pt-BR")} km
+        </Text>
       </View>
 
       <Text style={styles.details}>
@@ -23,7 +26,7 @@ export default function VehicleCard({ vehicle, onPress }: Props) {
       {hasAlert && (
         <View style={styles.alertBox}>
           <Text style={styles.alertText}>
-            {vehicle.nextMaintenance!.typeName} em{' '}
+            {vehicle.nextMaintenance!.typeName} em{" "}
             {vehicle.nextMaintenance!.dueInKm
               ? `${vehicle.nextMaintenance!.dueInKm} km`
               : `${vehicle.nextMaintenance!.dueInDays} dias`}
@@ -36,24 +39,28 @@ export default function VehicleCard({ vehicle, onPress }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    backgroundColor: colors.white,
+    borderRadius: radius.xl,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
     borderWidth: 1,
-    borderColor: '#eee',
+    borderColor: colors.borderLight,
   },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  nickname: { fontSize: 17, fontWeight: '600' },
-  km: { fontSize: 14, color: '#666' },
-  details: { fontSize: 14, color: '#666', marginTop: 4 },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  nickname: { fontSize: 17, fontWeight: "600" },
+  km: { fontSize: 14, color: colors.textSecondary },
+  details: { fontSize: 14, color: colors.textSecondary, marginTop: spacing.xs },
   alertBox: {
-    backgroundColor: '#fff3e0',
-    borderRadius: 6,
+    backgroundColor: colors.warningBg,
+    borderRadius: radius.sm,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    marginTop: 10,
-    alignSelf: 'flex-start',
+    marginTop: spacing.md,
+    alignSelf: "flex-start",
   },
-  alertText: { fontSize: 12, color: '#e65100', fontWeight: '600' },
+  alertText: { fontSize: 12, color: colors.warningText, fontWeight: "600" },
 });

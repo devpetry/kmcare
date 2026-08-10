@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   View,
   Text,
@@ -8,15 +8,19 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { vehicleSchema, VehicleFormData } from './schema';
-import { RootStackParamList } from '../../navigation/types';
+} from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { vehicleSchema, VehicleFormData } from "./schema";
+import { RootStackParamList } from "../../navigation/types";
+import { colors, spacing, radius } from "../../theme";
 
-type VehicleFormNavigationProp = NativeStackNavigationProp<RootStackParamList, 'VehicleForm'>;
+type VehicleFormNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "VehicleForm"
+>;
 
 export default function VehicleFormScreen() {
   const navigation = useNavigation<VehicleFormNavigationProp>();
@@ -28,14 +32,20 @@ export default function VehicleFormScreen() {
     formState: { errors },
   } = useForm<VehicleFormData>({
     resolver: zodResolver(vehicleSchema),
-    defaultValues: { nickname: '', brand: '', model: '', year: '', currentKm: '' },
+    defaultValues: {
+      nickname: "",
+      brand: "",
+      model: "",
+      year: "",
+      currentKm: "",
+    },
   });
 
   const onSubmit = async (data: VehicleFormData) => {
     setIsSubmitting(true);
     try {
       // substituir por chamada real à API quando o backend existir
-      console.log('Novo veículo:', {
+      console.log("Novo veículo:", {
         ...data,
         year: Number(data.year),
         currentKm: Number(data.currentKm),
@@ -44,7 +54,7 @@ export default function VehicleFormScreen() {
 
       navigation.goBack();
     } catch (error) {
-      console.error('Erro ao cadastrar veículo:', error);
+      console.error("Erro ao cadastrar veículo:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -53,7 +63,7 @@ export default function VehicleFormScreen() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView contentContainerStyle={styles.scroll}>
         <Field
@@ -99,7 +109,9 @@ export default function VehicleFormScreen() {
           onPress={handleSubmit(onSubmit)}
           disabled={isSubmitting}
         >
-          <Text style={styles.buttonText}>{isSubmitting ? 'Salvando...' : 'Salvar veículo'}</Text>
+          <Text style={styles.buttonText}>
+            {isSubmitting ? "Salvando..." : "Salvar veículo"}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -112,10 +124,17 @@ type FieldProps = {
   control: any;
   error?: string;
   placeholder?: string;
-  keyboardType?: 'default' | 'numeric';
+  keyboardType?: "default" | "numeric";
 };
 
-function Field({ label, name, control, error, placeholder, keyboardType = 'default' }: FieldProps) {
+function Field({
+  label,
+  name,
+  control,
+  error,
+  placeholder,
+  keyboardType = "default",
+}: FieldProps) {
   return (
     <View style={styles.field}>
       <Text style={styles.label}>{label}</Text>
@@ -139,27 +158,32 @@ function Field({ label, name, control, error, placeholder, keyboardType = 'defau
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  scroll: { padding: 20 },
-  field: { marginBottom: 16 },
-  label: { fontSize: 14, fontWeight: '600', marginBottom: 6, color: '#333' },
+  container: { flex: 1, backgroundColor: colors.white },
+  scroll: { padding: spacing.xl },
+  field: { marginBottom: spacing.lg },
+  label: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 6,
+    color: colors.textPrimary,
+  },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
+    borderColor: colors.border,
+    borderRadius: radius.md,
     paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingVertical: spacing.md,
     fontSize: 16,
   },
-  inputError: { borderColor: '#e53935' },
-  errorText: { color: '#e53935', fontSize: 12, marginTop: 4 },
+  inputError: { borderColor: colors.error },
+  errorText: { color: colors.error, fontSize: 12, marginTop: spacing.xs },
   button: {
-    backgroundColor: '#1a73e8',
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    borderRadius: radius.md,
     paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 8,
+    alignItems: "center",
+    marginTop: spacing.sm,
   },
   buttonDisabled: { opacity: 0.6 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  buttonText: { color: colors.white, fontSize: 16, fontWeight: "600" },
 });
